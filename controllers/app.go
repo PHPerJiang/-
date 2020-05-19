@@ -22,9 +22,6 @@ func Run(url string) {
 	for _, v := range urls {
 		body, _ := biz.GetBodyByUrl(v)
 		titles := biz.RegTitles(body)
-		for _, v := range titles {
-			fmt.Printf("title:%s\n", v.Title)
-			fmt.Printf("link:%s\n", v.Link)
-		}
+		biz.HandleGitContent(titles)
 	}
 }
