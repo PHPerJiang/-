@@ -21,9 +21,16 @@ func RegUrl(body string) (urls []string) {
 	return
 }
 
-func RegTitles(body string) (titles []dao.Titles, err error) {
-	reg := `<a href="(/topics/\d+)"`
+// RegTitles 正则匹配内容
+func RegTitles(body string) (titles []*dao.Titles) {
+	reg := `[\d]+、[\s\S]+?\[([\s\S]+?)\]\(([\s\S]+?)\)`
 	regObj := regexp.MustCompile(reg)
-	_ = regObj.FindAllStringSubmatch(body, -1)
+	result := regObj.FindAllStringSubmatch(body, -1)
+	for _, v := range result {
+		titles = append(titles, &dao.Titles{
+			Title: v[1],
+			Link:  v[2],
+		})
+	}
 	return
 }
