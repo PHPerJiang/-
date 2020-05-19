@@ -11,13 +11,19 @@ func init() {
 
 // GetUrlListByUrl 获取链接列表
 func GetUrlListByUrl(url string) (urls []string, err error) {
+	body, err := GetBodyByUrl(url)
+	urls = RegUrl(body)
+	return urls, err
+}
+
+// GetBodyByUrl 获取响应体
+func GetBodyByUrl(url string) (body string, err error) {
 	resp, err := http.Get(url)
-	//初始化
 	if err != nil {
 		return
 	}
-	body, err := ioutil.ReadAll(resp.Body)
+	respBody, err := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
-	urls = RegUrl(body)
-	return urls, err
+	body = string(respBody)
+	return body, err
 }
